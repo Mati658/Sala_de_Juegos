@@ -8,6 +8,7 @@ import { Component } from '@angular/core';
   styleUrl: './home.component.css'
 })
 export class HomeComponent {
+  juegos:number[] = [1,2,3,4];
   ngOnInit() {
   }
 

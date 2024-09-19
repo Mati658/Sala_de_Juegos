@@ -1,5 +1,5 @@
 /* From Uiverse.io by mi-series */ 
-.container {
+.container2 {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -73,4 +73,65 @@
   font-weight: 800;
   color: #264143;
   padding: 5px;
+}
+
+/*=======================================================================================================================*/
+/*===================================================OJO=================================================================*/
+
+/* From Uiverse.io by catraco */ 
+/*------ Settings ------*/
+.container {
+  --color: #a5a5b0;
+  --size: 20px;
+  display:block;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  cursor: pointer;
+  font-size: var(--size);
+  user-select: none;
+  fill: var(--color);
+  top: -35px;
+  right: -280px;
+}
+
+.container .eye {
+  position: absolute;
+  animation: keyframes-fill .5s;
+}
+
+.container .eye-slash {
+  position: absolute;
+  animation: keyframes-fill .5s;
+  display: none;
+}
+
+/* ------ On check event ------ */
+.container input:checked ~ .eye {
+  display: none;
+}
+
+.container input:checked ~ .eye-slash {
+  display: block;
+}
+
+/* ------ Hide the default checkbox ------ */
+.container input {
+  position: absolute;
+  opacity: 0;
+  cursor: pointer;
+  height: 0;
+  width: 0;
+}
+
+/* ------ Animation ------ */
+@keyframes keyframes-fill {
+  0% {
+    transform: scale(0);
+    opacity: 0;
+  }
+
+  50% {
+    transform: scale(1.2);
+  }
 }
