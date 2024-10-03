@@ -1,0 +1,77 @@
+import { Component, inject } from '@angular/core';
+import { AuthService } from '../services/auth.service';
+
+@Component({
+  selector: 'app-ahorcado',
+  standalone: true,
+  imports: [],
+  templateUrl: './ahorcado.component.html',
+  styleUrl: './ahorcado.component.css'
+})
+export class AhorcadoComponent {
+  abc : string[]= ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'Ñ', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z'];
+  palabras: string[] = ["BRUMA", "DRAGON", "MAGIA", "FANTASIA", "MAR", "LABERINTO", 
+    "TRENZA", "METALES", "CAMINO", "REYES", "IMPERIO", "NOMBRE", "VIENTO", "RAYO", "PINTOR", "PESADILLA", "HEROE"];
+  botonesDesactivados!: boolean[]
+  guiones : string[] = [];
+  vidas : number = 6;
+  puntos : number = 0;
+  palabraActual : string = "";
+  jugando : boolean = false;
+  perdido : boolean = false;
+
+  iniciarJuego(): void {
+    this.perdido = false;
+    this.botonesDesactivados = Array(this.abc.length).fill(false);
+    this.palabraActual = this.elegirPalabra();
+    console.log(this.palabraActual);
+    this.generarGuiones(); 
+  }
+
+
+  elegirPalabra() : string{
+    let maxPalabras : number = this.palabras.length;
+    let random : number= this.generarRandom(0, maxPalabras - 1);
+    let palabra : string = this.palabras[random];
+
+    return palabra;
+  }
+
+  generarGuiones(){
+    this.guiones = Array(this.palabraActual.length).fill("_");  
+  }
+  
+  async adivinarLetra(letra : string, index:number){
+    this.botonesDesactivados[index] = true;
+    if (this.palabraActual.includes(letra)) {
+      let i : number = 0;
+        this.palabraActual.split("").forEach(element => {
+          if (element == letra) {
+            this.guiones[i] = letra;
+          }
+          i++;
+        });
+
+        if (!this.guiones.includes("_")) {
+            this.puntos++;
+            await setTimeout(()=>{
+              this.iniciarJuego();
+            }, 3000);
+        }
+    }
+    else{
+      this.vidas--;
+      if (this.vidas == 0) {
+        this.perdido = true;
+        await setTimeout(()=>{
+          this.jugando = false;
+          this.puntos = 0;
+        }, 3000);
+      }
+    }
+  }
+
+  generarRandom(min: number, max: number): number {
+    return Math.floor(Math.random() * (max - min + 1)) + min;
+  }
+}

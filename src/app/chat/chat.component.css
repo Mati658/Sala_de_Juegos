@@ -1,0 +1,104 @@
+.container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: row;
+    text-align: center;
+    margin-top: 5%;
+  }
+  
+  .form_area {
+    display: block;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    background-image: url("/chat/fondo.jpg");
+    background-repeat: no-repeat;
+    background-size: cover;
+    border: 2px solid #264143;
+    border-radius: 20px;
+    box-shadow: 3px 4px 0px 1px #e99f4c;
+    height: 75vh;
+    width: 75%;
+    min-width: 700px;
+  }
+
+  .chat-container {
+    display:block;
+    height: 90%; 
+    overflow-y: auto; /* Habilita el desplazamiento vertical */
+    max-width: 100%;
+  }
+  
+  .message-box {
+    padding: 10px;
+    margin-bottom: 10px;
+    margin-top: 5px;
+    border-radius: 10px;
+    word-wrap: break-word; 
+  }
+
+  .message-box.fecha {
+    font-size: 12px;
+    font-weight: bold;
+    /* margin-top: 5%; */
+    margin-left: 80%;
+    position: absolute;
+  }
+  
+  .message-box.left {
+    background-color: #f1f1f1;
+    color: black;
+    font-size: 15px;
+    max-width: 50%;
+    width:auto;
+    left: 0;
+    margin-left: 10px;
+    text-align: left;
+  }
+  
+  .message-box.right {
+    background-color: #333;
+    color: #fff;
+    font-size: 15px;
+    max-width: 40%;
+    transform:translateX(135%);
+    text-align: right;
+    
+  }
+  
+  .message-input {
+    padding: 5px;
+    border-top: 1px solid #ccc;
+  }
+  
+  .message-input .message-send {
+    width: 80%;
+    padding: 10px;
+    border: none;
+    border-radius: 10px;
+    resize: none;
+  }
+  
+  .message-input .button-send {
+    background-color: #333;
+    color: #fff;
+    padding: 10px 20px;
+    border: none;
+    cursor: pointer;
+    margin-left: 10px;
+    border-radius: 10px;
+    font-size: 13px;
+    transform:translateY(-50%);
+  }
+  
+  .message-input .button-send:hover {
+    background-color: #f1f1f1;
+    color: #333;
+  }
+
+  .message-input .button-send:active {
+    background-color: #333;;
+    color: #fff;
+    transform:translateY(-3px);
+  }

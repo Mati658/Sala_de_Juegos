@@ -5,7 +5,10 @@
   <button routerLink="quien_soy">
     <span class="button_top">Quien Soy</span>
   </button>
-
+  <button [routerLink]="auth.logeado ? 'chat' : '/login'">
+    <span class="button_top">Chat</span>
+  </button>
+</header>
   
     
   @if (email == "") 
@@ -77,7 +80,7 @@
         <img src="/perfil.png" alt="Perfil" class="profile-img"/>
       </div>
       <nav class="popup-window">
-        <legend>{{email}}</legend>
+        <legend>{{auth.nombre}} <br><br> {{email}}</legend>
         <ul>
           <li>
             <button (click)="logout()">
@@ -103,7 +106,6 @@
     </label>
   }
   
-</header>
 
 <footer>©2024 - Altamira Matías</footer>
 

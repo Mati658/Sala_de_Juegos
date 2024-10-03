@@ -7,7 +7,21 @@ import { initializeApp, provideFirebaseApp } from '@angular/fire/app';
 import { getAuth, provideAuth } from '@angular/fire/auth';
 import { getFirestore, provideFirestore } from '@angular/fire/firestore';
 import { getStorage, provideStorage } from '@angular/fire/storage';
+import { environment } from '../environments/environment';
+import { provideHttpClient, withFetch } from '@angular/common/http';
+import { FIREBASE_OPTIONS } from '@angular/fire/compat';
 
 export const appConfig: ApplicationConfig = {
-  providers: [provideZoneChangeDetection({ eventCoalescing: true }), provideRouter(routes), provideClientHydration(), provideFirebaseApp(() => initializeApp({"projectId":"sala-de-juegos-altamira","appId":"1:321836067623:web:b0c14a89b0916a1bc3d702","storageBucket":"sala-de-juegos-altamira.appspot.com","apiKey":"AIzaSyDiD70X5t37roehSgfeUypPFjsRrigCPHk","authDomain":"sala-de-juegos-altamira.firebaseapp.com","messagingSenderId":"321836067623"})), provideAuth(() => getAuth()), provideFirestore(() => getFirestore()), provideStorage(() => getStorage()), provideFirebaseApp(() => initializeApp({"projectId":"sala-de-juegos-altamira","appId":"1:321836067623:web:b0c14a89b0916a1bc3d702","storageBucket":"sala-de-juegos-altamira.appspot.com","apiKey":"AIzaSyDiD70X5t37roehSgfeUypPFjsRrigCPHk","authDomain":"sala-de-juegos-altamira.firebaseapp.com","messagingSenderId":"321836067623"})), provideAuth(() => getAuth()), provideFirestore(() => getFirestore()), provideStorage(() => getStorage())]
+  providers: [
+    provideZoneChangeDetection({ eventCoalescing: true }),
+    provideRouter(routes),
+    provideClientHydration(),
+    provideFirebaseApp(() =>
+      initializeApp(environment.firebaseConfig)),
+    provideAuth(() => getAuth()),
+    provideFirestore(() => getFirestore()),
+    provideStorage(() => getStorage()),
+    provideHttpClient(withFetch()),
+    { provide : FIREBASE_OPTIONS, useValue: environment.firebaseConfig }
+  ],
 };

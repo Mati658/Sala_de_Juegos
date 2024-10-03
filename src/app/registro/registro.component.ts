@@ -1,45 +1,43 @@
 import { Component, inject } from '@angular/core';
-import { Auth, createUserWithEmailAndPassword } from '@angular/fire/auth';
-import { FormsModule } from '@angular/forms';
+import { AuthService } from '../services/auth.service';
+import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { RouterLink, Router } from '@angular/router';
 import Swal from 'sweetalert2';
+import { DatabaseService } from '../services/database.service';
+import { Usuario } from '../classes/usuario';
 @Component({
   selector: 'app-registro',
   standalone: true,
-  imports: [FormsModule, RouterLink],
+  imports: [FormsModule, RouterLink, ReactiveFormsModule],
   templateUrl: './registro.component.html',
   styleUrl: './registro.component.css'
 })
 export class RegistroComponent {
-  private auth = inject(Auth);
-  router = inject(Router);
-  email : string = "";
-  password : string = "";
-  nombre : string = "";
+  private auth = inject(AuthService);
+  private database = inject(DatabaseService);
+  fb = inject(FormBuilder);
+
+  formGroup : FormGroup;
+  usuario : Usuario | any = null;
+
   mostrarPassword : boolean = false;
 
-  registro(){
-    if (this.nombre =="" || this.email == "" || this.password == "") {
-      throw Swal.fire({
-        icon: "error",
-        title: "Oops...",
-        text: "Complete TODOS los campos!!",
-      });
-    }
-    createUserWithEmailAndPassword(this.auth, this.email, this.password).then(res =>{
-      console.log(res);
-      this.router.navigateByUrl("home");
-    }).catch(err =>{
-      let mensaje : string = "";
-      mensaje += this.email.includes("@") == false ? "Verifique su mail"  : "";
-      mensaje += mensaje == "" ? "Ocurrió un error. Por favor, intente nuevamente." : "";
-
-      Swal.fire({
-        icon: "error",
-        title: "Oops...",
-        text: mensaje,
-      });
+  constructor(){
+    this.formGroup = this.fb.group({
+      nombre: ["", [Validators.required, Validators.minLength(4), Validators.maxLength(15)]],
+      mail: ["", [Validators.required]],
+      clave : ["",[Validators.required, Validators.minLength(6)]]
     });
+  }
+
+  registro(){
+    console.log(this.formGroup);
+    this.auth.registro(this.formGroup.controls['mail'].value, this.formGroup.controls['clave'].value).then(res=>{
+      this.usuario = new Usuario(this.formGroup.controls['nombre'].value, this.formGroup.controls['mail'].value);
+      this.database.agregarUsuario(this.usuario);
+    }).catch(err =>{
+      console.log(err);
+    })
   }
 
   mostrar(){

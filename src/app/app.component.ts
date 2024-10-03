@@ -4,8 +4,12 @@ import { LoginComponent } from "./login/login.component";
 import { HomeComponent } from './home/home.component';
 import { QuienSoyComponent } from './quien-soy/quien-soy.component';
 import { RegistroComponent } from './registro/registro.component';
-import { Auth } from '@angular/fire/auth';
 import Swal from 'sweetalert2';
+import { AuthService } from './services/auth.service';
+import { DatabaseService } from './services/database.service';
+import { Usuario } from './classes/usuario';
+import { AhorcadoComponent } from './ahorcado/ahorcado.component';
+import { ChatComponent } from './chat/chat.component';
 
 @Component({
   selector: 'app-root',
@@ -16,6 +20,8 @@ import Swal from 'sweetalert2';
     LoginComponent,
     QuienSoyComponent,
     RegistroComponent,
+    AhorcadoComponent,
+    ChatComponent,
     RouterLink
   ],
   templateUrl: './app.component.html',
@@ -25,10 +31,32 @@ export class AppComponent implements OnInit, OnDestroy{
   title = 'sala_de_juegos';  
   menuVisible : boolean = false;
   email: string = "";
+  nombre: string = "";
   logeado : boolean = false;
   
   private router = inject(Router);
-  private auth = inject(Auth);
+  protected auth = inject(AuthService);
+  protected database = inject(DatabaseService);
+
+  ngOnInit() {
+    this.auth.onAuthStateChanged((auth) => {
+      if (auth?.email) {
+        this.email =  auth?.email;
+        
+        this.database.traerUsuarios().subscribe((users) => {
+          let usuarios : Usuario[] = users;
+          usuarios.forEach(user => {
+            if (user.mail == auth?.email){
+              this.auth.nombre = user.nombre; 
+              this.auth.mail = user.mail; 
+            }
+          });
+        });
+        this.logeado = true;
+      }
+    });
+
+  }
 
   toggleMenu() {
     this.menuVisible = !this.menuVisible;
@@ -47,17 +75,6 @@ export class AppComponent implements OnInit, OnDestroy{
         text: "Error al salir de la cuenta",
       });
     });
-  }
-
-
-  ngOnInit() {
-    this.auth.onAuthStateChanged((auth) => {
-      if (auth?.email) {
-        this.email =  auth?.email;
-        this.logeado = true;
-      }
-    });
-    console.log(this.email);
   }
 
   ngOnDestroy() {

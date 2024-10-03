@@ -44,6 +44,7 @@ footer{
 
 
 .popup {
+  z-index: 1;
   --burger-line-width: 1.125em;
   --burger-line-height: 0.125em;
   --burger-offset: 0.625em;

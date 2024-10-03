@@ -1,50 +1,45 @@
 import { Component, inject, OnInit } from '@angular/core';
-import { Auth, signInWithEmailAndPassword } from '@angular/fire/auth';
 import { Router, RouterLink } from '@angular/router';
-import { FormsModule } from '@angular/forms';
+import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import Swal from 'sweetalert2';
+import { AuthService } from '../services/auth.service';
 
 @Component({
   selector: 'app-login',
   standalone: true,
-  imports: [FormsModule, RouterLink],
+  imports: [FormsModule, RouterLink, ReactiveFormsModule],
   templateUrl: './login.component.html',
   styleUrl: './login.component.css'
 })
-export class LoginComponent implements OnInit{
-  private auth = inject(Auth);
+export class LoginComponent{
+  private auth = inject(AuthService);
   router = inject(Router);
+  fb = inject(FormBuilder);
+  formGroup : FormGroup;
+
   email : string = "";
   password : string = "";
   mostrarPassword : boolean = false;
-
-  ngOnInit(){
-    this.auth.onAuthStateChanged((auth) => {
-      console.log(auth);
-      if (auth?.email) {
-        this.router.navigateByUrl('');
-      }
+  
+  constructor(){
+    this.formGroup = this.fb.group({
+      mail: ["", [Validators.required]],
+      clave : ["",[Validators.required, Validators.minLength(6)]]
     });
   }
 
   login(email:string = this.email, password:string = this.password){
-    signInWithEmailAndPassword(this.auth, email, password).then(res =>{
-      this.router.navigateByUrl("home");
-    }).catch(err =>{
-      let mensaje : string = "";
-      mensaje = password == "" ? "Verifique su contraseña " : "";
-      mensaje += email.includes("@") == false ? "Verifique su mail"  : "";
-      mensaje += mensaje == "" ? "Ocurrió un error. Por favor, intente nuevamente." : "";
-
-      Swal.fire({
-        icon: "error",
-        title: "Oops...",
-        text: mensaje,
-      });
-    });
+    if (email != "" && password != "") {
+      this.formGroup.controls['mail'].setValue(email);
+      this.formGroup.controls['clave'].setValue(password);
+    }
+    console.log(this.formGroup);
+    this.auth.login(this.formGroup.controls['mail'].value, this.formGroup.controls['clave'].value);
   }
 
   mostrar(){
     this.mostrarPassword = !this.mostrarPassword;
   }
+
+  
 }
