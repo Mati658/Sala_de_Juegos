@@ -35,7 +35,7 @@ export class AuthService{
 
   login(email:string, password:string){
     signInWithEmailAndPassword(this.auth, email, password).then(res =>{
-      this.router.navigateByUrl("home");
+      this.router.navigateByUrl("");
     }).catch(err =>{
       let mensaje : string = "";
       mensaje = password == "" ? "Verifique su contraseña " : "";
@@ -54,7 +54,7 @@ export class AuthService{
     let bool : boolean = false;
     await createUserWithEmailAndPassword(this.auth, email, password).then(res =>{
       // console.log(res);
-      this.router.navigateByUrl("home");
+      this.router.navigateByUrl("");
       bool = true;
     }).catch(err =>{
       let mensaje : string = "";

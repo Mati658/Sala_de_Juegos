@@ -56,7 +56,7 @@ export class ChatComponent{
     try {
       this.messagesContainer.nativeElement.scrollTop = this.messagesContainer.nativeElement.scrollHeight;
     } catch(err) {
-      console.error('Error al hacer scroll', err);
+
     }
   }
 }

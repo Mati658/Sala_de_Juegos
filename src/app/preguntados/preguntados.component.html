@@ -1,5 +1,5 @@
 <div class="container">
-    <div class="form_area" style="z-index: 1;">
+    <div class="form_area background" style="z-index: 1;">
         <!-- boton play -->
         <button (click)="jugando = true" (click)="iniciarJuego()"  style="margin-top: 250px;" [class]="jugando ? 'slide-out-top' : ''">
             <span class="button_top" style="display: flex; align-items: center;"> 
@@ -12,22 +12,8 @@
         @if (jugando) 
         {
             <span style="position: absolute; transform: translateX(200px); font-size: 20px; font-weight: bold; font-family:monospace;">PUNTOS: {{puntos}}</span>
-            <div class="palabra"> {{guiones.join(" ")}}</div>
-
-            <div class="stickman" style="z-index: -1;">
-                <div class="head"></div>
-                <div class="torso"></div>
-                <div class="left-arm"></div>
-                <div class="right-arm"></div>
-                <div class="left-leg"></div>
-                <div class="right-leg"></div>
-            </div>
 
             <div class="container" style="display: block; height: 50%; width: 80%; max-width: 1000px; transform: translateX(12%); position: relative; bottom: 50%;" >
-                @for (letra of abc; track $index) 
-                {
-                    <button class="card scale-in-center" (click)="adivinarLetra(letra, $index)" [disabled]="botonesDesactivados[$index]" [disabled]="perdido">{{letra}}</button>
-                }
             </div>
         }
         

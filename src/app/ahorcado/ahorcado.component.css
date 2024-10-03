@@ -15,6 +15,7 @@
   background-color: #eddcd9;
   border: 2px solid #264143;
   border-radius: 20px;
+  min-width: 1100px;
   box-shadow: 3px 4px 0px 1px #e99f4c;
   height: 75vh;
   width: 75%;
@@ -153,4 +154,103 @@ button:active .button_top {
   font-size: 50px;
   font-weight: bold;
   font-family:monospace;
+}
+
+/*========================================================================================================================= */
+/*================================================stickman================================================================= */
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  background-color: #f0f0f0;
+}
+
+.stickman {
+  z-index: 1;
+  position: relative;
+  margin-top: 5%;
+  top: 1;
+  left: 51%; 
+  bottom: 45%;
+  width: 60px;
+  height: 200px;
+}
+
+.head {
+  width: 50px;
+  height: 50px;
+  background-color: rgb(41, 43, 99);
+  border-radius: 50%;
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  visibility: hidden;
+}
+
+.torso {
+  width: 5px;
+  height: 80px;
+  background-color: rgb(41, 43, 99);
+  position: absolute;
+  top: 50px;
+  left: 50%;
+  transform: translateX(-50%);
+  visibility: hidden;
+}
+
+.left-arm {
+  width: 5px;
+  height: 60px;
+  background-color: rgb(41, 43, 99);
+  position: absolute;
+  top: 60px;
+  left: 45%;
+  transform: rotate(45deg);
+  transform-origin: top;
+  visibility: hidden;
+}
+
+.right-arm {
+  width: 5px;
+  height: 60px;
+  background-color: rgb(41, 43, 99);
+  position: absolute;
+  top: 60px;
+  right: 45%;
+  transform: rotate(-45deg);
+  transform-origin: top;
+  visibility: hidden;
+}
+
+.left-leg {
+  width: 5px;
+  height: 70px;
+  background-color: rgb(41, 43, 99);
+  position: absolute;
+  top: 130px;
+  left: 45%;
+  transform: rotate(20deg);
+  transform-origin: top;
+  visibility: hidden;
+}
+
+.right-leg {
+  width: 5px;
+  height: 70px;
+  background-color: rgb(41, 43, 99);
+  position: absolute;
+  top: 130px;
+  right: 45%;
+  transform: rotate(-20deg);
+  transform-origin: top;
+  visibility: hidden;
 }

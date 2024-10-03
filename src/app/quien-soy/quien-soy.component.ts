@@ -9,6 +9,7 @@ import { Component } from '@angular/core';
 })
 export class QuienSoyComponent {
   ngOnInit() {
+    console.log("hola")
   }
 
   ngOnDestroy() {

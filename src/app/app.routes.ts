@@ -4,6 +4,9 @@ import { HomeComponent } from './home/home.component';
 import { QuienSoyComponent } from './quien-soy/quien-soy.component';
 import { RegistroComponent } from './registro/registro.component';
 import { ErrorComponent } from './error/error.component';
+import { AhorcadoComponent } from './ahorcado/ahorcado.component';
+import { MayorMenorComponent } from './mayor-menor/mayor-menor.component';
+import { PreguntadosComponent } from './preguntados/preguntados.component';
 
 export const routes: Routes = [
     {
@@ -20,21 +23,20 @@ export const routes: Routes = [
                 (c) => c.ChatComponent
             )
     },
-    {
-        path : 'ahorcado',
-        loadComponent: () =>
-            import("./ahorcado/ahorcado.component").then(
-                (c) => c.AhorcadoComponent
-            )
+    { path : 'home', component : HomeComponent,
+        children : [
+            {
+                path : 'ahorcado', component:AhorcadoComponent
+            },
+            {
+                path : 'mayor_menor', component:MayorMenorComponent
+            },
+            {
+                path : 'preguntados', component:PreguntadosComponent
+            }
+        ]
+
     },
-    {
-        path : 'mayor_menor',
-        loadComponent: () =>
-            import("./mayor-menor/mayor-menor.component").then(
-                (c) => c.MayorMenorComponent
-            )
-    },
-    { path : 'home', component : HomeComponent},
     { path : 'login', component : LoginComponent},
     { path : 'quien_soy', component : QuienSoyComponent},
     { path : 'registro', component : RegistroComponent},

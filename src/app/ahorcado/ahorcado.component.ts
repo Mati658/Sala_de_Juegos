@@ -12,20 +12,29 @@ export class AhorcadoComponent {
   abc : string[]= ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'Ñ', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z'];
   palabras: string[] = ["BRUMA", "DRAGON", "MAGIA", "FANTASIA", "MAR", "LABERINTO", 
     "TRENZA", "METALES", "CAMINO", "REYES", "IMPERIO", "NOMBRE", "VIENTO", "RAYO", "PINTOR", "PESADILLA", "HEROE"];
+  partes : string[] = [".head", ".torso", ".left-arm", ".right-arm", ".left-leg", ".right-leg"];
+
   botonesDesactivados!: boolean[]
   guiones : string[] = [];
-  vidas : number = 6;
+  vidas : number = 0;
   puntos : number = 0;
   palabraActual : string = "";
   jugando : boolean = false;
   perdido : boolean = false;
+  vidasPerdidas : number = 0;
 
   iniciarJuego(): void {
     this.perdido = false;
     this.botonesDesactivados = Array(this.abc.length).fill(false);
     this.palabraActual = this.elegirPalabra();
     console.log(this.palabraActual);
+    this.vidas = 6;
+    this.vidasPerdidas = 0;
     this.generarGuiones(); 
+    this.partes.forEach(element => {
+      let parte : any = element;
+      document.querySelector(parte).style.visibility = 'hidden';
+    });
   }
 
 
@@ -61,6 +70,7 @@ export class AhorcadoComponent {
     }
     else{
       this.vidas--;
+      this.mostrarParte();
       if (this.vidas == 0) {
         this.perdido = true;
         await setTimeout(()=>{
@@ -68,10 +78,20 @@ export class AhorcadoComponent {
           this.puntos = 0;
         }, 3000);
       }
+      console.log(this.vidas);
     }
   }
 
   generarRandom(min: number, max: number): number {
     return Math.floor(Math.random() * (max - min + 1)) + min;
+  }
+
+  mostrarParte() {
+    let parte : any = this.partes[this.vidasPerdidas];
+    this.vidasPerdidas++;
+
+    document.querySelector(parte).style.visibility = 'visible';
+    console.log(this.partes);
+
   }
 }
