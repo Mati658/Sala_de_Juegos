@@ -21,7 +21,7 @@ export class HomeComponent {
   
   aplicarIcono(index : number){
     setTimeout(()=>{
-      const svgElement = document.getElementById(`${index}`) as SVGElement | null;
+      const svgElement = document.getElementById(`icono${index}`) as SVGElement | null;
       console.log(index);
       if (svgElement) {
         svgElement.innerHTML = this.juegos[index].svg;

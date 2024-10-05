@@ -19,7 +19,21 @@
     height: 75vh;
     width: 75%;
   }
-  
+
+  .area_botones {
+    display: flex;
+    position: absolute;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    left: 40%;
+  }
+
+  .area_juego {
+    display: contents;
+    position: absolute;
+  }
+
   button {
     /* Variables */
     --button_radius: 0.75em;
@@ -67,14 +81,43 @@
       opacity: 1;
     }
     100% {
-      -webkit-transform: translateY(-1000px);
-      transform: translateY(-1000px);
+      -webkit-transform: translateY(-30vh);
+      transform: translateY(-30vh);
       opacity: 0;
     }
   }
 
 
+.slide-out-bottom {
+  -webkit-animation: slide-out-bottom 0.5s cubic-bezier(0.55, 0.085, 0.68, 0.53)
+    both;
+  animation: slide-out-bottom 0.5s cubic-bezier(0.55, 0.085, 0.68, 0.53) both;
+}
 
+@-webkit-keyframes slide-out-bottom {
+  0% {
+    -webkit-transform: translateY(0);
+    transform: translateY(0);
+    opacity: 1;
+  }
+  100% {
+    -webkit-transform: translateY(30vh);
+    transform: translateY(30vh);
+    opacity: 0;
+  }
+}
+@keyframes slide-out-bottom {
+  0% {
+    -webkit-transform: translateY(0);
+    transform: translateY(0);
+    opacity: 1;
+  }
+  100% {
+    -webkit-transform: translateY(30vh);
+    transform: translateY(30vh);
+    opacity: 0;
+  }
+}
 
 
 .background{
@@ -134,7 +177,7 @@
   flex-direction: column;
   text-align: center;
   gap: 10px;
-  /* margin-top: 5%; */
+  margin-top: 30%;
 }
 
 
@@ -167,3 +210,35 @@ button.trivia {
     transform: translateY(-7px);
   }
   
+/*========================================================================================================================= */
+/*=================================================RANKING================================================================= */
+
+  .ranking {
+    overflow-y: auto;
+    position: absolute;
+    width: 40%;
+    height: 65%;
+    left: 29%;
+    bottom: 21%;
+    border-radius: 30px;
+    background: #e0e0e08c;
+    box-shadow: 15px 15px 30px #bebebe7d, -15px -15px 30px #ffffff81;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+  }
+  
+  thead{
+    position: relative;
+    gap: 50%;
+  }
+  td{
+    text-align: left;
+    /* padding: 50px; */
+  }
+  table{
+    border-spacing: 50px 10px;
+  }
+  
+  .atras{
+    position: relative;
+    right: 40%;
+  }

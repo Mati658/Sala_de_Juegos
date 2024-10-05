@@ -31,4 +31,18 @@ export class DatabaseService {
     const colMensajes = this.firestore.collection("chat", ref => ref.orderBy('fecha'));
     return colMensajes.valueChanges() as Observable<Mensaje[]>;
   }
+
+  //usuario, fecha, puntaje
+
+  subirPuntosJuego(juego : string, usuario : string, puntos : number, fechaString : string){
+    if (puntos>0) { 
+      const colMensajes = this.firestore.collection(juego); 
+      colMensajes.add({usuario, puntos, fechaString});
+    }
+  }
+
+  traerPuntosJuego(juego : string){
+    const colRanking = this.firestore.collection(juego, ref => ref.orderBy('puntos', "desc"));
+    return colRanking.valueChanges() as Observable<[]>;
+  }
 }

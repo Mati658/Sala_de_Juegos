@@ -1,5 +1,7 @@
 import { Component, inject } from '@angular/core';
 import { ApiRequestService } from '../services/api-request.service';
+import { DatabaseService } from '../services/database.service';
+import { AuthService } from '../services/auth.service';
 
 @Component({
   selector: 'app-preguntados',
@@ -10,12 +12,18 @@ import { ApiRequestService } from '../services/api-request.service';
 })
 export class PreguntadosComponent {
   api = inject(ApiRequestService);
+  database = inject(DatabaseService);
+  auth = inject(AuthService);
+
   jugando : boolean = false;
   bloqueado : boolean = false;
+  mostrarRanking : boolean = false;
+
   puntos : number = 0;
   imagen : string = "";
   respuesta : string = "";
   question : string = "";
+  ranking : [] = [];
   opciones : string[] = [];
   categorias : string[] = ["geography", "arts%26literature", "entertainment", "science%26nature", "sports%26leisure", "history"];
 
@@ -64,6 +72,7 @@ export class PreguntadosComponent {
         buttonElement.style.backgroundColor = "#c43323";
         buttonElement.style.boxShadow = "0px 4px 10px rgba(229, 77, 46, 0.4)";
         await setTimeout(()=>{
+          this.database.subirPuntosJuego("preguntados", this.auth.nombre, this.puntos, this.obtenerFecha())
           this.jugando = false;
           this.puntos = 0;
           buttonElement.classList.remove("animar");
@@ -94,5 +103,36 @@ export class PreguntadosComponent {
 
   obtenerCategoria(){
     return this.categorias[this.generarRandom(0, this.categorias.length - 1)];
+  }
+
+  obtenerFecha(){
+    const timestamp = Date.now();
+    const fecha = new Date(timestamp);
+
+    let dia = fecha.getDate();
+    let mes = fecha.getMonth() + 1;
+    let año = fecha.getFullYear();
+    let hora = fecha.getHours();
+    let minutos = fecha.getMinutes();
+    return `${dia}/${mes}/${año} ${hora}:${minutos}`;
+  }
+
+  obtenerRanking(){
+    this.database.traerPuntosJuego("preguntados").subscribe(res=>{
+      this.ranking = res;
+      console.log(this.ranking);
+      let tabla : string = ""
+      this.ranking.forEach((element:any) => {
+        console.log(element)
+        tabla += `
+        <tr>
+            <td>${element.usuario}</td>
+            <td>${element.puntos}</td>
+            <td>${element.fechaString}</td>
+        </tr>
+        `;
+      });
+      (<HTMLElement>document.getElementById("table_ranking")).innerHTML = tabla;
+    });
   }
 }

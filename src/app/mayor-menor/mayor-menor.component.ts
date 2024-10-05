@@ -1,4 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
+import { DatabaseService } from '../services/database.service';
+import { AuthService } from '../services/auth.service';
 
 @Component({
   selector: 'app-mayor-menor',
@@ -8,12 +10,18 @@ import { Component, OnInit } from '@angular/core';
   styleUrl: './mayor-menor.component.css'
 })
 export class MayorMenorComponent {
+  database = inject(DatabaseService);
+  auth = inject(AuthService);
+
   palos : string[] = ["basto", "espada", "copa", "oro"];
+  ranking : [] = [];
+
   numero : number = 0;
   numeroAnterior : number = 0;
   puntos : number = 0;
   jugando : boolean = false;
   perdido : boolean = false;
+  mostrarRanking : boolean = false;
  
   iniciarJuego(): void {
     this.perdido = false;
@@ -42,6 +50,7 @@ export class MayorMenorComponent {
     else{
       this.perdido = true;
       await setTimeout(()=>{
+        this.database.subirPuntosJuego("mayor_menor", this.auth.nombre, this.puntos, this.obtenerFecha())
         this.jugando = false;
         this.puntos = 0;
       }, 3000);
@@ -66,5 +75,36 @@ export class MayorMenorComponent {
         carta.classList.add('animar'); // Agrega o quita la clase para animar
       }
     }, 200);
+  }
+
+  obtenerFecha(){
+    const timestamp = Date.now();
+    const fecha = new Date(timestamp);
+
+    let dia = fecha.getDate();
+    let mes = fecha.getMonth() + 1;
+    let año = fecha.getFullYear();
+    let hora = fecha.getHours();
+    let minutos = fecha.getMinutes();
+    return `${dia}/${mes}/${año} ${hora}:${minutos}`;
+  }
+
+  obtenerRanking(){
+    this.database.traerPuntosJuego("mayor_menor").subscribe(res=>{
+      this.ranking = res;
+      console.log(this.ranking);
+      let tabla : string = ""
+      this.ranking.forEach((element:any) => {
+        console.log(element)
+        tabla += `
+        <tr>
+            <td>${element.usuario}</td>
+            <td>${element.puntos}</td>
+            <td>${element.fechaString}</td>
+        </tr>
+        `;
+      });
+      (<HTMLElement>document.getElementById("table_ranking")).innerHTML = tabla;
+    });
   }
 }

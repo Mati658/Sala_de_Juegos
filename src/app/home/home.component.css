@@ -93,14 +93,14 @@
     transform: translateZ(0);
   }
   
-  .overlay {
-    width: 118px;
+  .card.wallet.overlay {
     position: absolute;
-    height: 118px;
+    width: 60%;
+    height: 40%;
     border-radius: 50%;
     background: var(--bg-color);
-    top: 70px;
-    left: 50px;
+    top: 20%;
+    left: 20%;
     z-index: 0;
     transition: transform 0.3s ease-out;
   }

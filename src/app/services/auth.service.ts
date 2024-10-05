@@ -21,8 +21,8 @@ export class AuthService{
   logeado : boolean = false;
   
   constructor() {
-    this.authSubscription = this.auth.onAuthStateChanged((auth) => {
-      console.log(auth);
+    this.authSubscription = this.onAuthStateChanged((auth) => {
+      // console.log(auth);
       if(auth?.email){
         this.logeado = true;
         this.usuario = auth;

@@ -15,6 +15,7 @@ import { Usuario } from '../classes/usuario';
 export class RegistroComponent {
   private auth = inject(AuthService);
   private database = inject(DatabaseService);
+  router = inject(Router);
   fb = inject(FormBuilder);
 
   formGroup : FormGroup;
@@ -23,6 +24,12 @@ export class RegistroComponent {
   mostrarPassword : boolean = false;
 
   constructor(){
+    this.auth.onAuthStateChanged((auth) => {
+      if(auth?.email){
+        this.router.navigateByUrl("")
+      }
+    });
+
     this.formGroup = this.fb.group({
       nombre: ["", [Validators.required, Validators.minLength(4), Validators.maxLength(15)]],
       mail: ["", [Validators.required]],

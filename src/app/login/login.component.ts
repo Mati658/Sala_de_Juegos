@@ -22,6 +22,12 @@ export class LoginComponent{
   mostrarPassword : boolean = false;
   
   constructor(){
+    this.auth.onAuthStateChanged((auth) => {
+      if(auth?.email){
+        this.router.navigateByUrl("")
+      }
+    });
+
     this.formGroup = this.fb.group({
       mail: ["", [Validators.required]],
       clave : ["",[Validators.required, Validators.minLength(6)]]
@@ -41,5 +47,4 @@ export class LoginComponent{
     this.mostrarPassword = !this.mostrarPassword;
   }
 
-  
 }

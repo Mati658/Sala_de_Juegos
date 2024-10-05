@@ -1,5 +1,6 @@
 import { Component, inject } from '@angular/core';
 import { AuthService } from '../services/auth.service';
+import { DatabaseService } from '../services/database.service';
 
 @Component({
   selector: 'app-ahorcado',
@@ -9,20 +10,25 @@ import { AuthService } from '../services/auth.service';
   styleUrl: './ahorcado.component.css'
 })
 export class AhorcadoComponent {
+  database = inject(DatabaseService);
+  auth = inject(AuthService);
+
   abc : string[]= ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'Ñ', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z'];
   palabras: string[] = ["BRUMA", "DRAGON", "MAGIA", "FANTASIA", "MAR", "LABERINTO", 
     "TRENZA", "METALES", "CAMINO", "REYES", "IMPERIO", "NOMBRE", "VIENTO", "RAYO", "PINTOR", "PESADILLA", "HEROE"];
   partes : string[] = [".head", ".torso", ".left-arm", ".right-arm", ".left-leg", ".right-leg"];
-
   botonesDesactivados!: boolean[]
   guiones : string[] = [];
+  ranking : [] = [];
+
   vidas : number = 0;
   puntos : number = 0;
+  vidasPerdidas : number = 0;
   palabraActual : string = "";
   jugando : boolean = false;
   perdido : boolean = false;
-  vidasPerdidas : number = 0;
-
+  mostrarRanking : boolean = false;
+  
   iniciarJuego(): void {
     this.perdido = false;
     this.botonesDesactivados = Array(this.abc.length).fill(false);
@@ -74,6 +80,7 @@ export class AhorcadoComponent {
       if (this.vidas == 0) {
         this.perdido = true;
         await setTimeout(()=>{
+          this.database.subirPuntosJuego("ahorcado", this.auth.nombre, this.puntos, this.obtenerFecha())
           this.jugando = false;
           this.puntos = 0;
         }, 3000);
@@ -93,5 +100,36 @@ export class AhorcadoComponent {
     document.querySelector(parte).style.visibility = 'visible';
     console.log(this.partes);
 
+  }
+
+  obtenerFecha(){
+    const timestamp = Date.now();
+    const fecha = new Date(timestamp);
+
+    let dia = fecha.getDate();
+    let mes = fecha.getMonth() + 1;
+    let año = fecha.getFullYear();
+    let hora = fecha.getHours();
+    let minutos = fecha.getMinutes();
+    return `${dia}/${mes}/${año} ${hora}:${minutos}`;
+  }
+
+  obtenerRanking(){
+    this.database.traerPuntosJuego("ahorcado").subscribe(res=>{
+      this.ranking = res;
+      console.log(this.ranking);
+      let tabla : string = ""
+      this.ranking.forEach((element:any) => {
+        console.log(element)
+        tabla += `
+        <tr>
+            <td>${element.usuario}</td>
+            <td>${element.puntos}</td>
+            <td>${element.fechaString}</td>
+        </tr>
+        `;
+      });
+      (<HTMLElement>document.getElementById("table_ranking")).innerHTML = tabla;
+    });
   }
 }

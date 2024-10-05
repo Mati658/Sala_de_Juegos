@@ -2,11 +2,11 @@
     @for (juego of juegos; track $index) 
         {
             <div class="card wallet" [routerLink]="auth.logeado ? juego.ruta : '/login'">
-                <div class="overlay"></div>
+                <div class="card wallet overlay"></div>
                 <div class="circle">
                     @if (juego.svg) 
                     {
-                        <img id="{{$index}}" src="{{juego.svg}}" width="128px" height="128px" style="z-index: 100;">
+                        <img id="icono{{$index}}" src="{{juego.svg}}" width="128px" height="128px" style="z-index: 100;">
                     }
                 </div>
                 <p>{{juego.juego}} </p>
