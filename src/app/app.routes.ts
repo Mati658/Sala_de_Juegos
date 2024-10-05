@@ -7,6 +7,7 @@ import { ErrorComponent } from './error/error.component';
 import { AhorcadoComponent } from './ahorcado/ahorcado.component';
 import { MayorMenorComponent } from './mayor-menor/mayor-menor.component';
 import { PreguntadosComponent } from './preguntados/preguntados.component';
+import { HeadSoccerComponent } from './head-soccer/head-soccer.component';
 
 export const routes: Routes = [
     {
@@ -33,6 +34,9 @@ export const routes: Routes = [
             },
             {
                 path : 'preguntados', component:PreguntadosComponent
+            },
+            {
+                path : 'head_soccer', component:HeadSoccerComponent
             }
         ]
 

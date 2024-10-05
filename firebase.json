@@ -8,6 +8,10 @@
     ],
     "rewrites": [
       {
+        "source": "/head_soccer/**", 
+        "destination": "/head_soccer/Index.html"
+      },
+      {
         "source": "**",
         "destination": "/index.html"
       }
