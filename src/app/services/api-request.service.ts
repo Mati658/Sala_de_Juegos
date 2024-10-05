@@ -11,9 +11,14 @@ export class ApiRequestService {
 
   constructor() { }
 
-  // traerInfoGit(){
+  perfilGit(usuario : string){
+    const url = `https://api.github.com/users/${usuario}`;
+    const peticion = this.http.get(url,{
+      responseType: 'json'
+    })
 
-  // }
+    return peticion;
+  }
 
   obtenerImagen(consulta: string) {
     const key = "DlN2YruVUZlrcgkRqmgtuKbcf13pYTDvej4rT29nQ_M";

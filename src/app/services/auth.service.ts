@@ -58,6 +58,7 @@ export class AuthService{
       bool = true;
     }).catch(err =>{
       let mensaje : string = "";
+      mensaje += err.code === 'auth/email-already-in-use' ? "Este mail ya está registrado" : "";
       mensaje += email.includes("@") == false ? "Verifique su mail"  : "";
       mensaje += mensaje == "" ? "Ocurrió un error. Por favor, intente nuevamente." : "";
 

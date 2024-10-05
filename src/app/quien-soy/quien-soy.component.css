@@ -8,13 +8,15 @@ text-align: center;
 }
 
 .form_area {
-display: flex;
+display:flex;
+position: relative;
 justify-content: center;
 align-items: center;
 flex-direction: column;
 background-color: #EDDCD9;
-height: 500px;
-width: 25%;
+height: fit-content;
+width: 30%;
+min-width:40vh;
 border: 2px solid #264143;
 border-radius: 20px;
 box-shadow: 3px 4px 0px 1px #E99F4C;
@@ -24,7 +26,6 @@ box-shadow: 3px 4px 0px 1px #E99F4C;
 color: #264143;
 font-weight: 900;
 font-size: 1.5em;
-margin-top: -20%;
 }
 
 .sub_title {
@@ -32,36 +33,21 @@ font-weight: 600;
 margin: 5px 0;
 }
 
-.form_group {
-display: flex;
-flex-direction: column;
-align-items: baseline;
-margin: 10px;
+img.perfil{
+  border-radius: 50%;
+  width: 50%;
+  height: 50%;
 }
 
-.form_style {
-outline: none;
-border: 2px solid #264143;
-box-shadow: 3px 4px 0px 1px #E99F4C;
-width: 290px;
-padding: 12px 10px;
-border-radius: 4px;
-font-size: 15px;
+img.muestra{
+  border-radius: 5%;
+  width: 90%;
+  height: 90%;
+  margin-bottom: 10px;
 }
 
-.form_style:focus, .btn:focus {
-transform: translateY(4px);
-box-shadow: 1px 2px 0px 0px #E99F4C;
-}
-
-.link {
-font-weight: 800;
-color: #264143;
-padding: 5px;
-}
-
-
-/* GITHUB BUTTON */
+/*=====================================================================================================================*/
+/*=================================================GITHUB BUTTON=======================================================*/
 
 .button {
     display: flex;
@@ -100,3 +86,75 @@ padding: 5px;
   .button:hover svg path {
     fill: #181717;
   }
+  
+/*=====================================================================================================================*/
+/*=================================================TAB BAR=============================================================*/
+
+.tab-container {
+  position: relative;
+
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+
+  padding: 2px;
+
+  background-color: #dadadb;
+  border-radius: 9px;
+}
+
+.indicator {
+  content: "";
+  width: 130px;
+  height: 28px;
+  background: #ffffff;
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  z-index: 9;
+  border: 0.5px solid rgba(0, 0, 0, 0.04);
+  box-shadow: 0px 3px 8px rgba(0, 0, 0, 0.12), 0px 3px 1px rgba(0, 0, 0, 0.04);
+  border-radius: 7px;
+  transition: all 0.2s ease-out;
+}
+
+.tab {
+  width: 130px;
+  height: 28px;
+  position: absolute;
+  z-index: 99;
+  outline: none;
+  opacity: 0;
+}
+
+.tab_label {
+  font-family:Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+  width: 130px;
+  height: 28px;
+
+  position: relative;
+  z-index: 999;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border: 0;
+
+  font-size: 0.75rem;
+  opacity: 0.6;
+
+  cursor: pointer;
+}
+
+.tab--1:checked ~ .indicator {
+  left: 2px;
+}
+
+.tab--2:checked ~ .indicator {
+  left: calc(130px + 2px);
+}
+
+.tab--3:checked ~ .indicator {
+  left: calc(130px * 2 + 2px);
+}
